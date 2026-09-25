@@ -16,8 +16,8 @@ namespace engine {
 		void pollEvents();
 
 		GLFWwindow* handle() const { return m_window; }
-
 	private:
 		GLFWwindow* m_window = nullptr;
+
 	};
 }

@@ -6,7 +6,7 @@ file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp"
 )
 
-add_library(engine STATIC ${ENGINE_SOURCES} "include/engine/Application.h" "src/Application.cpp")
+add_library(engine STATIC ${ENGINE_SOURCES} "include/engine/Application.h" "src/Application.cpp" "include/engine/VertexBuffer.h" "src/VertexBuffer.cpp" "include/engine/VertexArray.h" "src/VertexArray.cpp" "include/engine/VertexLayout.h" "src/VertexLayout.cpp" "include/engine/Shader.h" "src/Shader.cpp")
 
 target_include_directories(engine
     PUBLIC  "${CMAKE_CURRENT_SOURCE_DIR}/include"   # app sees  #include <engine/Shader.h>
