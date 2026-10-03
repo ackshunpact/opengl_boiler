@@ -30,10 +30,10 @@ namespace engine {
 		case AttributeType::Float2: return { GL_FLOAT, 2, 8, false, false };
 		case AttributeType::Float3: return { GL_FLOAT, 3, 12, false, false };
 		case AttributeType::Float4: return { GL_FLOAT, 4, 16, false, false };
-		case AttributeType::Int: return { GL_FLOAT, 1, 4, false, true };
-		case AttributeType::Int2: return { GL_FLOAT, 2, 8, false, true };
-		case AttributeType::Int3: return { GL_FLOAT, 3, 12, false, true };
-		case AttributeType::Int4: return { GL_FLOAT, 4, 16, false, true };
+		case AttributeType::Int: return { GL_INT, 1, 4, false, true };
+		case AttributeType::Int2: return { GL_INT, 2, 8, false, true };
+		case AttributeType::Int3: return { GL_INT, 3, 12, false, true };
+		case AttributeType::Int4: return { GL_INT, 4, 16, false, true };
 		default: return {};
 		}
 	}

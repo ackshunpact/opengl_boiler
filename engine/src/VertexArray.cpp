@@ -5,6 +5,11 @@ engine::VertexArray::VertexArray()
 	glGenVertexArrays(1, &m_id);
 }
 
+engine::VertexArray::~VertexArray()
+{
+	glDeleteVertexArrays(1, &m_id);
+}
+
 void engine::VertexArray::bind() const {
 	glBindVertexArray(m_id);
 }
@@ -30,5 +35,13 @@ void engine::VertexArray::addVertexBuffer(const VertexBuffer& vbo, const VertexL
 		}
 		m_next_index++;
 	}
+	unbind();
+}
+
+void engine::VertexArray::setIndexBuffer(const IndexBuffer& ibo)
+{
+	bind();
+	ibo.bind();
+	unbind();
 }
 

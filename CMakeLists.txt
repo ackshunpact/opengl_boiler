@@ -34,11 +34,13 @@ set_target_properties(glfw PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES "${LIB_DIR}/glfw/include"
 )
 
-# glm: header-only. Only defined once you've added libraries/glm
-if (EXISTS "${LIB_DIR}/glm/glm/glm.hpp")
-    add_library(glm INTERFACE)
-    target_include_directories(glm INTERFACE "${LIB_DIR}/glm")
-endif()
+# glm: header-only. 
+add_library(glm INTERFACE)
+target_include_directories(glm INTERFACE "${LIB_DIR}/glm")
+
+# cgltf: header-only.
+add_library(cgltf INTERFACE)
+target_include_directories(cgltf INTERFACE "${LIB_DIR}/cgltf")
 
 # stb_image: header-only. Only defined once you've added libraries/stb
 if (EXISTS "${LIB_DIR}/stb/stb_image.h")

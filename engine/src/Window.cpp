@@ -46,3 +46,7 @@ void engine::Window::pollEvents()
 {
 	glfwPollEvents();
 }
+
+void engine::Window::setCursorInputMode(int inputMode) {
+	glfwSetInputMode(m_window, GLFW_CURSOR, inputMode);
+}

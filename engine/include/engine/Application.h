@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <engine/Input.h>
+#include <memory>
 
 namespace engine {
 	struct AppConfig {
@@ -15,7 +17,7 @@ namespace engine {
 		Application(const AppConfig& config);
 		Application(const Application&) = delete;
 		Application& operator=(const Application&) = delete;
-		~Application() = default;
+		virtual ~Application();
 
 	
 
@@ -29,7 +31,8 @@ namespace engine {
 		int window_width; 
 		int window_height;
 		const char* window_title;
-		engine::Window* m_window;
+		std::unique_ptr<engine::Window> m_window;
+		std::unique_ptr<engine::Input> m_input;
 
 	protected:
 		// compiling shaders, creating VAOs and VBOs, 
@@ -56,5 +59,8 @@ namespace engine {
 		// possible) without touching your drawing code.
 		virtual void onRender() {}
 		virtual void onShutDown() {}
+		
+		Input& getInput() const;
+		Window& getWindow() const;
 	};
 }
