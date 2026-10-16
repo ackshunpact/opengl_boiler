@@ -1,0 +1,84 @@
+#include <engine/core/Application.h>
+#include <engine/core/Window.h>
+#include <engine/core/Input.h>
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+
+namespace engine {
+	Application::Application(const AppConfig& config) {
+		window_width = config.width; 
+		window_height = config.height;
+		window_title = config.title.c_str();
+		m_window = std::make_unique<Window>(window_width, window_height, window_title);
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glEnable(GL_DEPTH_TEST);
+		glfwSetInputMode(m_window->handle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+		m_input = std::make_unique<Input>(m_window.get()->handle());
+		m_assets = std::make_unique<engine::AssetManager>();
+		
+		// refactor into a function to add shader to renderer by paths
+		// renderer->addShader(vsPath, fsPath) etc
+		const char* vsPath = "D:/dev/cpp/opengl_boiler/app/default.vert";
+		const char* fsPath = "D:/dev/cpp/opengl_boiler/app/default.frag";
+		m_shader = std::make_unique<engine::Shader>(vsPath, fsPath);
+		m_shader->use();
+		m_renderer = std::make_unique<engine::Renderer>(*m_shader);
+		loadScene<CubeWaveScene>();
+	}
+
+	engine::Application::~Application() = default;
+	void Application::run() {
+		onInit();
+		double prev_time = glfwGetTime();
+		double fpsTimer = 0.0;
+		int frameCount = 0;
+
+		if (m_nextScene) {
+			if (m_scene) {
+				m_scene->onDestroy();
+			}
+
+			m_scene = std::move(m_nextScene);
+			m_scene->onCreate();
+		}
+
+
+		while (!m_window->shouldClose()) {
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			double current_time = glfwGetTime();
+			float dt = (float)(current_time - prev_time);
+			prev_time = current_time;
+
+			// count FPSes
+			fpsTimer += dt;
+			++frameCount;
+			if (fpsTimer >= 0.5) {
+				char title[128];
+				std::snprintf(title, sizeof(title), "%s | %.0f FPS (%.2f ms)", window_title, frameCount / fpsTimer, 1000.0 * fpsTimer / frameCount);
+				glfwSetWindowTitle(m_window->handle(), title);
+				fpsTimer = 0.0;
+				frameCount = 0;
+			}
+
+
+
+
+			m_input->update();
+			m_window->pollEvents();
+			m_scene->update(dt);
+			m_scene->render(*m_renderer);
+			
+			m_window->swapBuffers();
+		}
+	}
+	Input& engine::Application::getInput() const {
+		return *m_input;
+	}
+	Window& Application::getWindow() const
+	{
+		return *m_window;
+	}
+}
