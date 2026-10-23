@@ -1,7 +1,7 @@
 # opengl_boiler
 
 A reusable C++ / OpenGL 3.3 starter template built with CMake. Clone it, subclass `engine::Application`, and start drawing.
-
+Update: procedurally generated terrain.
 ![Screenshot](img/screenshot.png)
 
 ## Stack
