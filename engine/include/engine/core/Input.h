@@ -15,6 +15,9 @@ namespace engine {
 		float scrollDelta() const;
 
 		void setCursorCaptured(bool captured);
+		bool isCursorCaptured() const { return m_cursorCaptured;  }
+
+		void setBlocked(bool b) { m_blocked = b; }
 	private:
 
 		GLFWwindow* m_window;
@@ -24,5 +27,7 @@ namespace engine {
 		float m_scroll = 0.f, m_scrollAccum = 0.f;
 		double lastX = 640.0, lastY = 360.0;
 		float sensitivity = 0.1f;
+		bool m_blocked = false;
+		bool m_cursorCaptured = false;
 	};
 }

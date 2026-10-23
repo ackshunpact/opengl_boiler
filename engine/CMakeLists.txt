@@ -16,7 +16,7 @@ target_include_directories(engine
 # PUBLIC = anything linking engine also gets these (headers + libs)
 target_link_libraries(engine PUBLIC glad glfw glm)
 target_link_libraries(engine PRIVATE cgltf)          # only ModelLoader.cpp uses it
-
+target_link_libraries(engine PUBLIC glad glfw glm imgui)
 if (TARGET stb)
     target_link_libraries(engine PRIVATE stb)       # only engine's Texture code needs it
 endif()

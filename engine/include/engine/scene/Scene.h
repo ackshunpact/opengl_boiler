@@ -29,7 +29,7 @@ namespace engine {
 
 		virtual void onCreate() {};
 		virtual void onDestroy() {};
-
+		virtual void onDebugUI() {};
 		void update(float dt) {
 			if (m_paused) return;
 			m_time += dt;

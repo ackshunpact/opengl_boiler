@@ -21,7 +21,11 @@ void engine::FpsCameraController::update(Input& input, Camera& camera, float dt)
 
 void engine::FpsCameraController::handleCapture(Input& input)
 {
-	m_captured = true;
+	if (input.wasKeyPressed(GLFW_KEY_P))
+	{
+		input.setCursorCaptured(!input.isCursorCaptured());
+	}
+	m_captured = input.isCursorCaptured();
 }
 
 void engine::FpsCameraController::handleLook(const Input& input, Camera& camera)

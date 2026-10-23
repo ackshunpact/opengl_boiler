@@ -10,7 +10,7 @@ glm::mat4 engine::Camera::viewMatrix() const
 glm::mat4 engine::Camera::projectionMatrix() const
 {
 	return  glm::perspective(glm::radians(fov), aspect, 0.1f,
-		100.0f);
+		1000.0f);
 
 }
 

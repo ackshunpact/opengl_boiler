@@ -48,6 +48,18 @@ if (EXISTS "${LIB_DIR}/stb/stb_image.h")
     target_include_directories(stb INTERFACE "${LIB_DIR}/stb")
 endif()
 
+# Dear ImGui: core + GLFW and OpenGL3 backends, built as a static lib
+add_library(imgui STATIC
+    "${LIB_DIR}/imgui/imgui.cpp"
+    "${LIB_DIR}/imgui/imgui_draw.cpp"
+    "${LIB_DIR}/imgui/imgui_tables.cpp"
+    "${LIB_DIR}/imgui/imgui_widgets.cpp"
+    "${LIB_DIR}/imgui/imgui_demo.cpp"          # optional: ImGui::ShowDemoWindow(), great reference
+    "${LIB_DIR}/imgui/imgui_impl_glfw.cpp"
+    "${LIB_DIR}/imgui/imgui_impl_opengl3.cpp"
+)
+target_include_directories(imgui PUBLIC "${LIB_DIR}/imgui")
+target_link_libraries(imgui PUBLIC glfw)       # the GLFW backend calls GLFW functions
 # ---------- Our code ----------
 add_subdirectory(engine)
 add_subdirectory(app)

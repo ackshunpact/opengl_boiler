@@ -5,12 +5,14 @@
 // forward 
 namespace engine {
 	class Model;
+	class Material;
 }
 
 namespace engine::ecs {
 
 	struct RenderComponent : Component {
 		Model* model = nullptr; // non-ownership
+		const Material* material = nullptr;
 		bool visible = true;
 		glm::vec3 baseColor{ 1.0f };
 		RenderComponent() = default;

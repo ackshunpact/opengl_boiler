@@ -5,6 +5,9 @@
 #include <engine/assets/AssetManager.h>
 #include <engine/scene/Scene.h>
 #include <engine/scene/CubeWaveScene.h>
+#include <engine/debug/ImGuiLayer.h>
+#include <engine/debug/FrameStats.h>
+#include <engine/debug/StatsPanel.h>
 
 namespace engine {
 	struct AppConfig {
@@ -38,9 +41,12 @@ namespace engine {
 		int window_width; 
 		int window_height;
 		const char* window_title;
+		FrameStats m_stats;
+
 		std::unique_ptr<engine::Window> m_window;
 		std::unique_ptr<engine::Input> m_input;
 		std::unique_ptr<engine::AssetManager> m_assets;
+		std::unique_ptr < engine::ImGuiLayer> m_imgui = nullptr;
 		std::unique_ptr<engine::Shader> m_shader = nullptr;
 		std::unique_ptr<engine::Renderer> m_renderer = nullptr;
 		std::unique_ptr<engine::Scene> m_scene = nullptr;

@@ -36,24 +36,31 @@ void engine::Input::update()
 		glfwSetWindowShouldClose(m_window, true);
 	}
 
-	if (isKeyDown(GLFW_KEY_P)) {
+	if (wasKeyPressed(GLFW_KEY_P)) {
 		if (glfwGetInputMode(m_window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED) {
 			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			m_blocked = false;
 		}
 		else {
 			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			m_blocked = true;
 		}
 	}
 }
 
 bool engine::Input::isKeyDown(int key) const
 {
-	return m_keys[key];
+	if (m_blocked || key < 0 || key > GLFW_KEY_LAST) {
+		return false;
+	}
+	else {
+		return m_keys[key];
+	}
 }
 
 bool engine::Input::wasKeyPressed(int key) const
-{
-	return m_prevKeys[key];
+{	
+	return m_frameKeys[key] && !m_prevKeys[key];
 }
 
 bool engine::Input::isMouseDown(int button) const
@@ -63,7 +70,7 @@ bool engine::Input::isMouseDown(int button) const
 
 glm::vec2 engine::Input::mouseDelta() const
 {
-	return m_mouseDelta;
+	return m_blocked ? glm::vec2(0.0f) : glm::vec2(m_mouseDelta);
 }
 
 float engine::Input::scrollDelta() const
@@ -73,4 +80,8 @@ float engine::Input::scrollDelta() const
 
 void engine::Input::setCursorCaptured(bool captured)
 {
+	m_cursorCaptured = captured;
+	glfwSetInputMode(m_window, GLFW_CURSOR, m_cursorCaptured ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+	m_firstMouse = true;
+	m_mouseAccum = {};
 }

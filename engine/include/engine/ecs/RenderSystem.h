@@ -4,6 +4,7 @@
 #include <engine/ecs/TransformComponent.h>
 #include <engine/ecs/RenderComponent.h>
 #include <engine/render/Renderer.h>
+#include <glm/glm.hpp>
 
 namespace engine::ecs {
 	struct RenderSystem {
@@ -12,7 +13,7 @@ namespace engine::ecs {
 			components.forEach<TransformComponent, RenderComponent>(
 				[&](Entity, TransformComponent& t, RenderComponent& r) {
 					if (r.visible && r.model) {
-						renderer.submit(*r.model, t.matrix());
+						renderer.submit(*r.model, r.material, t.matrix(), glm::vec4(1.0f));
 					}
 				});
 

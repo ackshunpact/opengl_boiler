@@ -13,10 +13,16 @@ uniform mat4 uProjection;
 
 out vec3 FragPos;
 out vec3 Normal;
+out vec2 vUV;
 
 
 void main() {
+	// vColor = aColor.rgb;
+
+
 	vColor = aColor.rgb;
+	vUV = aUV;
+
 	FragPos = vec3(aModel * vec4(aPos, 1.0));
 	Normal = mat3(transpose(inverse(aModel))) * aNormal;
 	gl_Position = uProjection * uView * aModel * vec4(aPos, 1.0); 

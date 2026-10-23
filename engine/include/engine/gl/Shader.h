@@ -15,16 +15,23 @@ namespace engine {
 	private:
 		GLuint m_id;
 	public:
+		Shader(const Shader&) = delete;
+		Shader& operator=(const Shader&) = delete;
+
 		Shader(const char* vertexPath, const char* fragmentPath);
 		~Shader() {
 			glDeleteProgram(m_id);
 		}
 
-		void use();
+		void use() const;
 		void setBool(const std::string& name, bool value) const;
 		void setInt(const std::string& name, int value) const;
 		void setFloat(const std::string& name, float value) const;
+		void setVec2(const std::string& name, glm::vec2 value) const;
 		void setVec3(const std::string& name, glm::vec3 value) const;
+		void setVec4(const std::string& name, glm::vec4 value) const;
+
+
 		void setMat4(const std::string& name, glm::mat4 value) const;
 	};
 }

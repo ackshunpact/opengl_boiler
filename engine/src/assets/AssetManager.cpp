@@ -1,6 +1,8 @@
 
 #include "engine/assets/AssetManager.h"
 #include <stdexcept>
+#include <engine/assets/ImageData.h>
+#include <engine/assets/ImageLoader.h>
 
 namespace engine {
 	
@@ -21,6 +23,32 @@ namespace engine {
 		}
 		return *m_handleModelIndex[it->second];
 
+	}
+
+
+
+	engine::Shader& AssetManager::loadShader(const std::string& vsPath, const std::string& fsPath)
+	{
+		std::string key = vsPath + '|' + fsPath;
+		auto it = m_shaders.find(key);
+		if (it == m_shaders.end()) {
+			it = m_shaders.emplace(key, std::make_unique<Shader>(vsPath.c_str(), fsPath.c_str())).first;
+		}
+		return *it->second;
+	}
+
+	const Texture2D& AssetManager::loadTexture(const std::string& filepath, bool srgb)
+	{
+		if (auto it = m_textures.find(filepath); it != m_textures.end()) {
+			return *it->second;
+		}
+		ImageData img = ImageLoader::loadPng(filepath, true);
+		if (!img.pixels) {
+			throw std::runtime_error("Failed to load texture2D: " + filepath);
+		}
+
+		auto [it, inserted] = m_textures.emplace(filepath, std::make_unique<Texture2D>(img.pixels.get(), img.w, img.h, img.nrChannels, srgb));
+		return *it->second;
 	}
 
 	//std::vector<std::unique_ptr<engine::Model>> AssetManager::getModels() {

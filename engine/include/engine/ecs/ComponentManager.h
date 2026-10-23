@@ -10,7 +10,7 @@
 #include <engine/ecs/Entity.h>
 
 namespace engine::ecs {
-
+	// 			m_stats.entities = m_scene->world().entityCount();
 	class ComponentManager {
 	public:
 		Entity createEntity() {
@@ -27,6 +27,7 @@ namespace engine::ecs {
 			}
 	
 			m_alive[id] = true;
+			++m_aliveCount;
 			return Entity(id, this);
 		}
 
@@ -37,12 +38,16 @@ namespace engine::ecs {
 			}
 
 			m_alive[id] = false;
+			--m_aliveCount;
 			m_freeIds.push_back(id);
 		}
 
 		bool isAlive(EntityId id) const {
 			return id < m_alive.size() && m_alive[id];
 		}
+
+		size_t entityCount() const { return m_aliveCount;  }
+
 
 		template <ComponentType T, typename... Args>
 		T& add(EntityId e, Args&&... args) {
@@ -97,7 +102,11 @@ namespace engine::ecs {
 		std::vector<bool> m_alive;
 		std::vector<EntityId> m_freeIds;
 		EntityId m_nextId = 0;
+		size_t m_aliveCount = 0;
 	};
+
+
+
 	inline bool Entity::valid() const {
 		return m_manager && m_manager->isAlive(m_id);
 	}
